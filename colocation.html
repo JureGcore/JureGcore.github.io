@@ -375,6 +375,7 @@
   .feature-card:hover h3 { color: white; }
   .feature-card:hover p { color: rgba(255,255,255,0.7); }
   .feat-row { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .feat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; gap: 14px; }
   .feat-icon {
     width: 46px; height: 46px; border-radius: 12px;
     background: var(--orange-soft); color: var(--orange);
@@ -1251,20 +1252,20 @@
       <!-- Row 1: 50-50 -->
       <div class="feat-row-grid r-50-50">
         <div class="feature-card">
-          <span class="feat-badge">Datacenters</span>
-          <div class="feat-row">
+          <div class="feat-header">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="7" y1="6" x2="17" y2="6"/><line x1="7" y1="10" x2="17" y2="10"/><line x1="7" y1="14" x2="17" y2="14"/><line x1="7" y1="18" x2="13" y2="18"/></svg></div>
-            <h3>From facility to failover-ready</h3>
+            <span class="feat-badge">Datacenters</span>
           </div>
+          <h3>From facility to failover-ready</h3>
           <p>Skip the setup entirely. Gcore selects the data center, racks the equipment, sets up connectivity, and prepares the environment for failover. The site is ready to go and built to stay that way.</p>
           <div class="feat-chips"><span class="chip">Tier III &amp; IV</span><span class="chip">EU data centers</span><span class="chip">Single contract</span></div>
         </div>
         <div class="feature-card">
-          <span class="feat-badge">Professional Services</span>
-          <div class="feat-row">
+          <div class="feat-header">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
-            <h3>One contract. One counterparty.</h3>
+            <span class="feat-badge">Professional Services</span>
           </div>
+          <h3>One contract. One counterparty.</h3>
           <p>Work with one counterparty and one service agreement across the core setup, response paths, and operational responsibilities.</p>
           <div class="feat-chips"><span class="chip">One SLA</span><span class="chip">In your language</span></div>
         </div>
@@ -1273,29 +1274,29 @@
       <!-- Row 2: three equal cards (33-33-33) -->
       <div class="feat-row-grid" style="grid-template-columns: 1fr 1fr 1fr;">
         <div class="feature-card">
-          <span class="feat-badge">Support &amp; Operations</span>
-          <div class="feat-row">
+          <div class="feat-header">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-            <h3>Engineers on site, under SLA</h3>
+            <span class="feat-badge">Support &amp; Operations</span>
           </div>
+          <h3>Engineers on site, under SLA</h3>
           <p>Skip the flights to colocations. Gcore engineers handle drive swaps, re-cabling, and hardware diagnostics on your equipment, on location, with response times written into the SLA.</p>
           <div class="feat-chips"><span class="chip">Remote hands</span><span class="chip">On-site SLA</span></div>
         </div>
         <div class="feature-card">
-          <span class="feat-badge">Connectivity</span>
-          <div class="feat-row">
+          <div class="feat-header">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <h3>Stay reachable. Stay protected.</h3>
+            <span class="feat-badge">Connectivity</span>
           </div>
+          <h3>Stay reachable. Stay protected.</h3>
           <p>Keep the recovery site connected and defended from day one. Network services and DDoS protection are built into the setup, not added as an afterthought.</p>
           <div class="feat-chips"><span class="chip">DDoS L3-7</span><span class="chip">Protected workloads</span></div>
         </div>
         <div class="feature-card">
-          <span class="feat-badge">Compliance</span>
-          <div class="feat-row">
+          <div class="feat-header">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg></div>
-            <h3>Your dossier, mapped to your regulator</h3>
+            <span class="feat-badge">Compliance</span>
           </div>
+          <h3>Your dossier, mapped to your regulator</h3>
           <p>Get a compliance package that maps to your regulator's specific articles, not a generic template. The baseline certifications are already in place.</p>
           <div class="feat-chips"><span class="chip">ISO 27001</span><span class="chip">PCI DSS</span></div>
         </div>
