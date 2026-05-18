@@ -1189,17 +1189,36 @@
     <!-- ═══ STEP 3: DNS (S3) ═══ -->
     <div class="step" id="step-3-s3">
       <div class="step-header left">
-        <h1>Add a CNAME record</h1>
-        <p>Create this record to point your custom CDN domain at Gcore.</p>
+        <h1>Point your domain to Gcore</h1>
+        <p id="s3-dns-desc">Add this DNS record at your DNS provider so Gcore CDN can serve your files.</p>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Your delivery hostname</label>
+        <input class="field-input" id="s3-delivery-host" type="text" placeholder="media.example.com or example.com" oninput="updateS3DnsRecord()">
+        <div class="field-helper">The hostname visitors will use to access your files through Gcore CDN.</div>
       </div>
       <div class="cname-surface">
-        <div class="cname-row"><span class="cname-label">Type</span><span class="cname-mono">CNAME</span></div>
-        <div class="cname-row"><span class="cname-label">Name</span><span class="cname-mono">media</span><button class="copy-btn" onclick="copyText('media')">Copy</button></div>
-        <div class="cname-row"><span class="cname-label">Value</span><span class="cname-mono">cl-xxxxx.gcdn.co</span><button class="copy-btn" onclick="copyText('cl-xxxxx.gcdn.co')">Copy</button></div>
+        <div class="cname-row">
+          <span class="cname-label">Type</span>
+          <span class="cname-mono" id="s3-record-type">CNAME</span>
+        </div>
+        <div class="cname-row">
+          <span class="cname-label">Name</span>
+          <span class="cname-mono" id="s3-record-name">media</span>
+          <button class="copy-btn" onclick="copyText(document.getElementById('s3-record-name').textContent)">Copy</button>
+        </div>
+        <div class="cname-row">
+          <span class="cname-label">Value</span>
+          <span class="cname-mono" id="s3-record-value">cl-xxxxx.gcdn.co</span>
+          <button class="copy-btn" onclick="copyText(document.getElementById('s3-record-value').textContent)">Copy</button>
+        </div>
       </div>
+      <p style="font-size:12px;color:var(--md-on-surface-variant);line-height:1.6;margin-top:10px">
+        DNS changes can take a few minutes to appear. We'll check the record before activating your CDN resource.
+      </p>
       <div class="actions">
         <button class="btn btn-outlined" onclick="goBack()">Back</button>
-        <button class="btn btn-filled" onclick="goNext()">Continue</button>
+        <button class="btn btn-filled" id="btn-s3-dns" onclick="confirmS3DnsAdded()">I've added the record</button>
       </div>
     </div>
 
@@ -1665,6 +1684,43 @@
     document.getElementById('s3-btn-other').style.cssText  += ';' + (v === 'other'  ? selectedStyle : defaultStyle);
     document.getElementById('s3-amazon').style.display = v === 'amazon' ? 'block' : 'none';
     document.getElementById('s3-other').style.display  = v === 'other'  ? 'block' : 'none';
+  }
+
+  /* ── S3 DNS RECORD ──────────────────────────────── */
+  function updateS3DnsRecord() {
+    var val  = document.getElementById('s3-delivery-host').value.trim();
+    var desc = document.getElementById('s3-dns-desc');
+    var typeEl = document.getElementById('s3-record-type');
+    var nameEl = document.getElementById('s3-record-name');
+
+    if (!val) {
+      desc.textContent = 'Add this DNS record at your DNS provider so Gcore CDN can serve your files.';
+      typeEl.textContent = 'CNAME';
+      nameEl.textContent = 'media';
+      return;
+    }
+
+    var parts = val.split('.');
+    var isRoot = parts.length === 2; // e.g. example.com
+
+    desc.innerHTML = 'Add this DNS record at your DNS provider so traffic for <strong>' + val + '</strong> can reach Gcore CDN.';
+
+    if (isRoot) {
+      typeEl.textContent = 'ALIAS';
+      nameEl.textContent = '@';
+    } else {
+      typeEl.textContent = 'CNAME';
+      nameEl.textContent = parts.slice(0, parts.length - 2).join('.') || 'media';
+    }
+  }
+
+  function confirmS3DnsAdded() {
+    var btn = document.getElementById('btn-s3-dns');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Checking record…';
+    setTimeout(function() {
+      goNext();
+    }, 1500);
   }
 
   /* ── MX CONFIRMATION ───────────────────────────── */
