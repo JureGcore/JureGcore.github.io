@@ -1079,7 +1079,48 @@
       </div>
     </div>
 
-    <!-- ═══ STEP 2: S3 SETUP ═══ -->
+    <!-- ═══ STEP 2: S3 BUCKET VISIBILITY ═══ -->
+    <div class="step" id="step-2-s3-visibility">
+      <div class="step-header left">
+        <h1>What type of S3 bucket are you using?</h1>
+        <p>This determines how Gcore will access your files.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px">
+        <div class="prot-card" id="s3-vis-private" onclick="selectS3Visibility('private')" style="cursor:pointer;gap:12px;padding:20px">
+          <span class="material-symbols-outlined" style="font-size:30px;color:var(--md-primary)">lock</span>
+          <div style="font-size:15px;font-weight:700;color:var(--md-on-surface)">Private bucket</div>
+          <div style="font-size:13px;color:var(--md-on-surface-variant);line-height:1.55">Gcore uses your credentials to securely pull files. Your bucket stays private — nothing is publicly exposed.</div>
+        </div>
+        <div class="prot-card" id="s3-vis-public" onclick="selectS3Visibility('public')" style="cursor:pointer;gap:12px;padding:20px">
+          <span class="material-symbols-outlined" style="font-size:30px;color:var(--md-success)">public</span>
+          <div style="font-size:15px;font-weight:700;color:var(--md-on-surface)">Public bucket</div>
+          <div style="font-size:13px;color:var(--md-on-surface-variant);line-height:1.55">Files are already publicly accessible via URL. No credentials needed — just provide the origin URL.</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outlined" onclick="goBack()">Back</button>
+        <button class="btn btn-filled" id="btn-next-2s3vis" disabled onclick="goNext()">Continue</button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 2: S3 PUBLIC ORIGIN ═══ -->
+    <div class="step" id="step-2-s3-public">
+      <div class="step-header left">
+        <h1>Connect your S3 bucket</h1>
+        <p>Enter the public URL of your S3 bucket so Gcore knows where to fetch your files from.</p>
+      </div>
+      <div class="field-wrap" style="margin-bottom:20px">
+        <label class="field-label">Origin URL</label>
+        <input class="field-input" id="s3-public-url" type="url" placeholder="https://my-bucket.s3.amazonaws.com">
+        <div class="field-helper">The public endpoint of your S3 bucket or compatible storage (e.g. Backblaze B2, DigitalOcean Spaces).</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outlined" onclick="goBack()">Back</button>
+        <button class="btn btn-filled" onclick="goNext()">Continue</button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 2: S3 SETUP (private) ═══ -->
     <div class="step" id="step-2-s3">
       <div class="step-header left">
         <h1>Connect your S3 bucket</h1>
@@ -1582,6 +1623,7 @@
     stepId: '1',
     wantsDns: null,
     deliveryType: null,
+    s3Visibility: null,
     prot: null,
     imageOpt: null,
     cms: null
@@ -1651,7 +1693,10 @@
     var id = state.stepId;
     var next, nextNum;
 
-    if (id === '1') { next = '2-' + state.goal; nextNum = 2; }
+    if (id === '1') {
+      if (state.goal === 's3') { next = '2-s3-visibility'; nextNum = 2; }
+      else { next = '2-' + state.goal; nextNum = 2; }
+    }
     else if (id === '2-website') { next = '2-dns'; nextNum = 2; }
     else if (id === '2-dns') {
       if (state.wantsDns) { next = '3-website'; nextNum = 3; }
@@ -1659,7 +1704,11 @@
     }
     else if (id === '3-website') { next = '4'; nextNum = 4; }
     else if (id === '3-no-dns') { next = '4'; nextNum = 4; }
-    else if (id === '2-s3') { next = '3-s3'; nextNum = 3; }
+    else if (id === '2-s3-visibility') {
+      if (state.s3Visibility === 'private') { next = '2-s3'; nextNum = 2; }
+      else { next = '2-s3-public'; nextNum = 2; }
+    }
+    else if (id === '2-s3' || id === '2-s3-public') { next = '3-s3'; nextNum = 3; }
     else if (id === '3-s3') { next = '4'; nextNum = 4; }
     else if (id === '4') { next = '5'; nextNum = 5; }
     else if (id === '5') {
@@ -1678,11 +1727,15 @@
     var id = state.stepId;
     var prev, prevNum;
 
-    if (id === '2-website' || id === '2-s3') { prev = '1'; prevNum = 1; }
+    if (id === '2-website' || id === '2-s3-visibility') { prev = '1'; prevNum = 1; }
+    else if (id === '2-s3') { prev = '2-s3-visibility'; prevNum = 2; }
+    else if (id === '2-s3-public') { prev = '2-s3-visibility'; prevNum = 2; }
     else if (id === '2-dns') { prev = '2-website'; prevNum = 2; }
     else if (id === '3-website') { prev = '2-dns'; prevNum = 2; }
     else if (id === '3-no-dns') { prev = '2-dns'; prevNum = 2; }
-    else if (id === '3-s3') { prev = '2-s3'; prevNum = 2; }
+    else if (id === '3-s3') {
+      prev = state.s3Visibility === 'public' ? '2-s3-public' : '2-s3'; prevNum = 2;
+    }
     else if (id === '4') {
       if (state.goal === 's3') { prev = '3-s3'; prevNum = 3; }
       else if (state.wantsDns) { prev = '3-website'; prevNum = 3; }
@@ -1907,6 +1960,14 @@
     target.appendChild(row);
   }
 
+  /* ── S3 VISIBILITY ──────────────────────────────── */
+  function selectS3Visibility(val) {
+    state.s3Visibility = val;
+    document.getElementById('s3-vis-private').classList.toggle('selected', val === 'private');
+    document.getElementById('s3-vis-public').classList.toggle('selected', val === 'public');
+    document.getElementById('btn-next-2s3vis').disabled = false;
+  }
+
   /* ── PROTECTION ─────────────────────────────────── */
   function selectProt(v) {
     state.prot = v;
@@ -2046,8 +2107,14 @@
       urlLabel = 'Origin URL';
       urlNote  = (wu && wu.value) ? wu.value : 'Not entered';
     } else if (state.goal === 's3') {
-      urlLabel = 'Storage provider';
-      urlNote  = s3Provider === 'amazon' ? 'Amazon S3' : s3Provider === 'other' ? 'Other S3-compatible' : 'Not selected';
+      if (state.s3Visibility === 'public') {
+        urlLabel = 'Origin URL';
+        var puEl = document.getElementById('s3-public-url');
+        urlNote  = (puEl && puEl.value) ? puEl.value : 'Not entered';
+      } else {
+        urlLabel = 'Storage provider';
+        urlNote  = s3Provider === 'amazon' ? 'Amazon S3' : s3Provider === 'other' ? 'Other S3-compatible' : 'Not selected';
+      }
     }
 
     // ── Delivery hostname (no-dns path) ──────────────
