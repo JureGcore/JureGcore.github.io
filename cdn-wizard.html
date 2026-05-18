@@ -1471,7 +1471,10 @@
     else if (id === '2-s3') { next = '3-s3'; nextNum = 3; }
     else if (id === '3-website' || id === '3-assets' || id === '3-s3') { next = '4'; nextNum = 4; }
     else if (id === '4') { next = '5'; nextNum = 5; }
-    else if (id === '5') { next = '5-cms'; nextNum = 5; }
+    else if (id === '5') {
+      if (state.goal === 's3') { next = '7'; nextNum = 7; buildSummary(); }
+      else { next = '5-cms'; nextNum = 5; }
+    }
     else if (id === '5-cms') { next = '7'; nextNum = 7; buildSummary(); }
 
     state.stepId = next;
@@ -1495,7 +1498,7 @@
     }
     else if (id === '5') { prev = '4'; prevNum = 4; }
     else if (id === '5-cms') { prev = '5'; prevNum = 5; }
-    else if (id === '7') { prev = '5-cms'; prevNum = 5; }
+    else if (id === '7') { prev = state.goal === 's3' ? '5' : '5-cms'; prevNum = 5; }
 
     state.stepId = prev;
     state.stepNum = prevNum;
@@ -1869,8 +1872,8 @@
     var imgPill = state.imageOpt ? pill(imgVal, imgColors[state.imageOpt]) : '<span class="summary-item-val">–</span>';
     html += row('Image optimization', imgPill);
 
-    // CMS with logo (always shown — step 5-cms is in the flow for all goals)
-    if (true) {
+    // CMS with logo (not shown for S3)
+    if (state.goal !== 's3') {
       var cmsLogoMap = {
         wordpress:  'https://cdn.simpleicons.org/wordpress/AEA9B4',
         drupal:     'https://cdn.simpleicons.org/drupal/AEA9B4',
