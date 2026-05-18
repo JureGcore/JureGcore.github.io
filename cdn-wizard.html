@@ -2053,7 +2053,13 @@
     // ── CMS guide ────────────────────────────────────
     document.getElementById('cms-guide').style.display    = 'none';
     document.getElementById('cms-no-guide').style.display = 'none';
-    if (!cms || cms === 'none') {
+    if (state.goal === 's3') {
+      document.getElementById('impl-cms-step-label').textContent = 'S3 integration guide';
+      document.getElementById('cms-guide').style.display = 'block';
+      document.getElementById('cms-guide-title').textContent = 'AWS S3 integration guide';
+      document.getElementById('cms-guide-desc').textContent  = 'Step-by-step instructions to connect your Gcore CDN resource with your S3 bucket.';
+      document.getElementById('cms-guide-link').href         = CMS_LINKS.aws;
+    } else if (!cms || cms === 'none') {
       document.getElementById('cms-no-guide').style.display = 'block';
     } else {
       document.getElementById('cms-guide').style.display = 'block';
