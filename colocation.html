@@ -41,8 +41,7 @@
 
   .atmosphere {
     position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background-image: url('assets/atmosphere.svg');
-    background-size: cover; background-position: center; background-repeat: no-repeat;
+    overflow: hidden;
   }
   .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
@@ -697,8 +696,6 @@
   }
   .final::before {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(255,76,0,0.15) 0%, transparent 60%),
-                radial-gradient(circle at 80% 70%, rgba(255,76,0,0.10) 0%, transparent 50%);
     pointer-events: none;
   }
   .final > * { position: relative; z-index: 2; }
@@ -919,7 +916,7 @@
   }
 
   /* Reframe cards (already dark background, prevent turning white) */
-  html.dark .reframe-card { background: #1E1224; }
+  html.dark .reframe-card { background: #150C18; }
 
   /* Feature cards */
   html.dark .feature-card {
@@ -932,7 +929,7 @@
   }
 
   /* Perf band (already dark, prevent turning white) */
-  html.dark .perf { background: #1E1224; }
+  html.dark .perf { background: #150C18; }
 
   /* Docs block */
   html.dark .docs-timeline-wrap {
@@ -948,7 +945,7 @@
   }
 
   /* Switch stat cards (already dark, prevent turning white) */
-  html.dark .switch-stat-card { background: #1E1224; }
+  html.dark .switch-stat-card { background: #150C18; }
 
   /* Case study */
   html.dark .case-card {
