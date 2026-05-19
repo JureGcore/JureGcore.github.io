@@ -963,18 +963,23 @@
   /* Final CTA (already dark, prevent turning white) */
   html.dark .final { background: #1E1224; }
 
-  /* Theme toggle */
+  /* Theme toggle — fixed bottom-right */
   .theme-toggle {
-    background: none; border: 1px solid var(--border);
-    border-radius: 999px; width: 38px; height: 38px;
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--dark); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: var(--text-secondary);
-    transition: all 0.15s ease; flex-shrink: 0;
+    box-shadow: 0 8px 24px -4px rgba(0,0,0,0.30);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
-  .theme-toggle:hover { border-color: var(--orange); color: var(--orange); }
-  .icon-moon, .icon-sun { width: 18px; height: 18px; display: block; }
-  html:not(.dark) .icon-sun { display: none; }
-  html.dark .icon-moon { display: none; }
+  .theme-toggle:hover { transform: scale(1.08); box-shadow: 0 12px 28px -8px rgba(0,0,0,0.45); }
+  .theme-toggle svg { width: 22px; height: 22px; color: #ffffff; stroke: #ffffff; }
+  .theme-toggle .icon-sun  { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  html.dark .theme-toggle .icon-sun  { display: block; }
+  html.dark .theme-toggle .icon-moon { display: none; }
+  html.dark .theme-toggle { background: #ffffff; }
+  html.dark .theme-toggle svg { color: #150C18; stroke: #150C18; }
 </style>
 </head>
 <body>
@@ -1010,11 +1015,7 @@
           <li><a class="nav-link" href="#cases">Our Customers</a></li>
         </ul>
       </div>
-      <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        </button>
+      <div class="nav-right">
         <a href="#cta" class="btn btn-primary">Talk to an Expert</a>
       </div>
     </nav>
@@ -3778,6 +3779,18 @@
   </div>
 </section>
 
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+</button>
 <script>
   /* Sticky header — hide on scroll down, show on scroll up */
   (function () {
