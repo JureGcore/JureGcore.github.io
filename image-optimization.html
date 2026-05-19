@@ -285,6 +285,71 @@
   .final-cta .btn-outline-white { background: transparent; color: white; border: 2px solid white; padding: 14px 38px; font-size: 15px; border-radius: 999px; }
   .final-cta .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
   .final-cta-note { font-size: 13.5px; color: rgba(255,255,255,0.55); margin-top: 18px; }
+
+  /* ============================================
+     DARK MODE
+     ============================================ */
+  .theme-toggle {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #150C18; color: white;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .theme-toggle:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .theme-toggle svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .theme-toggle .icon-sun  { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+
+  html.dark {
+    --bg: #0E0912; --bg-warm: #130B16; --dark: #FFFFFF;
+    --text: #F0ECE8;
+    --text-secondary: rgba(240,236,232,0.65);
+    --text-tertiary: rgba(240,236,232,0.4);
+    --border: rgba(255,255,255,0.08);
+    --orange-soft: rgba(255,76,0,0.12);
+    --orange-tint: rgba(255,76,0,0.25);
+    --orange-light: rgba(255,76,0,0.15);
+    --dark-soft: #261A30;
+  }
+  html.dark body { background: #0E0912; color: var(--text); }
+  html.dark .atmosphere { opacity: 0.05; }
+  html.dark .header.is-stuck nav.main { background: #150C18; border-color: rgba(255,255,255,0.09); box-shadow: 0 16px 32px -16px rgba(0,0,0,0.4); }
+  html.dark .feature-card { background: #150C18; border-color: var(--border); }
+  html.dark .feature-card:hover { background: #1E1224; border-color: rgba(255,255,255,0.14); }
+  html.dark .v01-card { background: #150C18; border-color: var(--border); }
+  html.dark .pain-card { background: #150C18; border-color: var(--border); }
+  html.dark .pain-image { background: linear-gradient(180deg, rgba(255,76,0,0.14) 0%, rgba(255,76,0,0.05) 60%, #150C18 100%); border-bottom-color: rgba(255,76,0,0.2); }
+  html.dark .callout-quote { background: #150C18; border-color: var(--border); color: var(--text); }
+  html.dark .edge-card { background: #150C18; border-color: var(--border); }
+  html.dark .edge-card:hover { border-color: var(--orange-tint); }
+  html.dark .edge-chip { background: #1E1224; border-color: rgba(255,255,255,0.09); color: rgba(255,255,255,0.6); }
+  html.dark .edge-image { background: linear-gradient(180deg, rgba(255,76,0,0.18) 0%, rgba(255,76,0,0.06) 60%, rgba(255,76,0,0.14) 100%); }
+  html.dark .logo-placeholder { background: #150C18; border-color: var(--border); }
+  html.dark .logos-svg { filter: brightness(0) invert(1); }
+  html.dark .faq-item { background: #150C18; border-color: var(--border); }
+  html.dark .faq-q { background: #150C18; color: var(--text); }
+  html.dark .case-card { background: #150C18; border-color: var(--border); }
+  html.dark .case-body { background: #150C18; }
+  html.dark .case-metrics { background: #1E1224; }
+  html.dark .case-quote { color: rgba(255,255,255,0.9); }
+  html.dark .case-author-name { color: white; }
+  html.dark .final-cta { background: #150C18; border: 1px solid var(--border); }
+  html.dark .ctabox { background: #150C18; }
+  html.dark .theme-toggle .icon-sun  { display: block; }
+  html.dark .theme-toggle .icon-moon { display: none; }
+  html.dark .theme-toggle { background: #ffffff; }
+  html.dark .theme-toggle svg { color: #150C18; stroke: #150C18; }
+
+  html.dark .img-opt-controls { background: #150C18; border-color: var(--border); }
+  html.dark .opt-meta-chip { background: #150C18; border-color: var(--border); }
+  html.dark .img-pricing-free { background: #150C18; }
+  html.dark .img-pricing-payg { background: #1E1224; border-color: var(--border); }
+  html.dark .pricing-payg-num { color: var(--text); }
+  html.dark .opt-url-box { background: #150C18; }
+
 </style>
 </head>
 <body>
@@ -949,6 +1014,24 @@
 
   update();
 })();
+</script>
+
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+<script>
+  (function() {
+    var toggle = document.getElementById('themeToggle');
+    var html = document.documentElement;
+    var saved = localStorage.getItem('imgopt-theme');
+    if (saved === 'dark') html.classList.add('dark');
+    toggle.addEventListener('click', function() {
+      html.classList.toggle('dark');
+      localStorage.setItem('imgopt-theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  })();
 </script>
 
 </body>
